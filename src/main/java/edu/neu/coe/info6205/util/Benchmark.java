@@ -129,15 +129,28 @@ public class Benchmark<T> {
      * @return the number of nanoseconds elapsed for this run
      */
     private long doRun(T t, boolean warmup) {
+
         // TO BE IMPLEMENTED: if fPre isn't null, then invoke it (using "apply") and memoize its result as "t1". Otherwise, assign "t" to "t1."
-
+        T t1 = t;
+        if(this.fPre != null) {
+            t1 = fPre.apply(t);
+        }
         // TO BE IMPLEMENTED: if warmup is true, simply invoke fRun with t1 (using "accept") and return 0.
-
+        if(warmup) {
+            fRun.accept(t1);
+            return 0;
+        }
         // TO BE IMPLEMENTED: start the timer, invoke fRun on t1 (using "accept"), stop the timer,
         // ... invoke fPost (if not-null) on t1 (using "accept").
+        long start_time = System.nanoTime();
+        fRun.accept(t1);
+        long end_time = System.nanoTime() - start_time;
 
+        if(fPost != null) {
+            fPost.accept(t1);
+        }
         // TO BE IMPLEMENTED: return the number of nanoseconds elapsed.
-        return 0L;
+        return end_time;
     }
 
     private final UnaryOperator<T> fPre;
@@ -162,7 +175,7 @@ public class Benchmark<T> {
             Integer[] array = new Integer[n];
             for (int i = 0; i < n; i++) array[i] = random.nextInt();
             benchmarkSort(array, "InsertionSort: " + n, new InsertionSort<>(), m);
-            benchmarkSort(array, "SelectionSort: " + n, new SelectionSort<>(), m);
+            //benchmarkSort(array, "SelectionSort: " + n, new SelectionSort<>(), m);
             n = n * 2;
         }
     }

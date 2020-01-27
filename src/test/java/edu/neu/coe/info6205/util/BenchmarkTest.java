@@ -59,7 +59,7 @@ public class BenchmarkTest {
     public void testBenchmarkWithQuickSort() throws Exception {
         Random random = new Random();
         int m = 100; // This is the number of repetitions: sufficient to give a good mean value of timing
-        int n = 1000; // This is the size of the array to be sorted.
+        int n = 100000; // This is the size of the array to be sorted.
         Integer[] array = new Integer[n];
         for (int i = 0; i < n; i++) array[i] = random.nextInt();
         double tqs3 = benchmarkSort(array, "QuickSort3way", new QuickSort_3way<>(), m);
