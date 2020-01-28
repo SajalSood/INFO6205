@@ -38,7 +38,7 @@ public class Helper<X extends Comparable<X>> {
 		}
 
 		public boolean cleanup(X[] xs, PrintStream ps) {
-				if (ps != null) ps.println(toString());
+				//if (ps != null) ps.println(toString());
 				final boolean sorted = sorted(xs);
 				if (!sorted) Objects.requireNonNull(ps).println(Arrays.toString(xs));
 				return sorted;

@@ -166,15 +166,28 @@ public class Benchmark<T> {
     public static void main(String[] args) {
         Random random = new Random();
         int m = 50; // This is the number of repetitions: sufficient to give a good mean value of timing
-        int n = 1000; // This is the size of the array
+        int n = 500; // This is the size of the array
         for (int k = 0; k < 5; k++) {
             Integer[] array = new Integer[n];
+            //Ordered
+            for (int i = 0; i < n; i++) array[i] = i;
+            //Partially Ordered
+            for (int i = 0; i < n; i++) {
+                if(i < n/2) {
+                    array[i] = i;
+                }
+                array[i] = random.nextInt();
+            }
+            //Reverse Ordered
+            for (int i = 0; i < n; i++) array[i] = n-i;
+            //Random
             for (int i = 0; i < n; i++) array[i] = random.nextInt();
+
             // TODO Choose from among the following...
             benchmarkSort(array, "InsertionSort: " + n, new InsertionSort<>(), m);
-            benchmarkSort(array, "SelectionSort: " + n, new SelectionSort<>(), m);
-            benchmarkSort(array, "QuickSort: " + n, new QuickSort_3way<>(), m*2);
-            benchmarkSort(array, "MergeSort: " + n, new MergeSortBasic<>(), m*2);
+            //benchmarkSort(array, "SelectionSort: " + n, new SelectionSort<>(), m);
+            //benchmarkSort(array, "QuickSort: " + n, new QuickSort_3way<>(), m*2);
+            //benchmarkSort(array, "MergeSort: " + n, new MergeSortBasic<>(), m*2);
             n = n * 2;
         }
     }
